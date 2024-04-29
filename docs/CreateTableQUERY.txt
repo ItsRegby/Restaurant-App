@@ -1,0 +1,62 @@
+CREATE TYPE user_role AS ENUM ('admin', 'customer');
+
+CREATE TABLE users (
+    user_id VARCHAR(255) PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role user_role NOT NULL
+);
+
+CREATE TABLE user_profiles (
+    profile_id SERIAL PRIMARY KEY,
+    user_id VARCHAR(255) UNIQUE NOT NULL,
+    full_name VARCHAR(255) NOT NULL,
+    address TEXT,
+    phone_number VARCHAR(15),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE categories (
+    category_id SERIAL PRIMARY KEY,
+    category_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE menu (
+    item_id SERIAL PRIMARY KEY,
+    item_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    category_id INT NOT NULL,
+    can_be_prepared BOOLEAN NOT NULL,
+	image BYTEA,
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);
+
+
+CREATE TABLE orders (
+    order_id SERIAL PRIMARY KEY,
+    customer_id VARCHAR(255) NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE order_details (
+    order_detail_id SERIAL PRIMARY KEY,
+    order_id INT NOT NULL,
+    added_items_data JSONB[] NOT NULL,
+	total_amount DECIMAL(10, 2) NOT NULL,
+	order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
+);
+
+CREATE TABLE reviews (
+    review_id SERIAL PRIMARY KEY,
+    user_id VARCHAR(255) NOT NULL ,
+    review_text TEXT,
+    rating INT CHECK (rating >= 1 AND rating <= 5) NOT NULL,
+    review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+
+
+
