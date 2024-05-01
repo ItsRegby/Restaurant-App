@@ -1,19 +1,21 @@
 <nav class="navbar navbar-expand-lg" style="background-color: lightgray;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Restaurant</a>
+    <a class="navbar-brand" href="/home">Restaurant</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">Home</a>
+        <a class="nav-link active" aria-current="page" href="/home">Home</a>
         <a class="nav-link" href="#">Menu</a>
-        <a class="nav-link" href="#">Test</a>
+        <% if Current.user %>
+          <a class="nav-link" href="/profile">Profile</a>
+        <% end %>
       </div>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1">
         <% if Current.user %>
           <li class="nav-item">
-            <span class="navbar-text"><%=Current.user.email %></span>
+            <%= link_to Current.user.email, edit_profile_path, class: "nav-link" %>
           </li>
           <li class="nav-item">
             <%=button_to "Logout", logout_path, method: :delete, class: "btn btn-outline-secondary" %>

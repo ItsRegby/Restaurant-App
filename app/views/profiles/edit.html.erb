@@ -3,10 +3,10 @@
     <div class="col-md-4">
       <div class="card">
         <div class="card-header bg-primary text-white" >
-          <h1 class="text-center">Sign Up!</h1>
+          <h1 class="text-center">Edit profile</h1>
         </div>
         <div class="card-body">
-          <%= form_with model: @user, url: sign_up_path do |form| %>
+          <%= form_with model: Current.user, url: edit_profile_path do |form| %>
             <% if form.object.errors.any? %>
               <div class="alert alert-danger">
                 <% form.object.errors.full_messages.each do |message| %>
@@ -17,11 +17,6 @@
               </div>
             <% end %>
             <div class="form-group mb-2">
-              <%= form.label :email, class: "font-weight-bold" %>
-              <%= form.text_field :email, class: "form-control", placeholder: "Enter your email" %>
-              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-            </div>
-            <div class="form-group mb-2">
               <%= form.label :password, class: "font-weight-bold" %>
               <%= form.password_field :password, class: "form-control", placeholder: "Enter your password" %>
             </div>
@@ -30,9 +25,9 @@
               <%= form.password_field :password_confirmation, class: "form-control", placeholder: "Confirm your password" %>
             </div>
             <div class="card">
-              <%= form.submit "Sign Up", class: "btn btn-primary btn-block" %>
+              <%= form.submit "Save", class: "btn btn-primary btn-block" %>
             </div>
-        <% end %>
+          <% end %>
         </div>
       </div>
     </div>
