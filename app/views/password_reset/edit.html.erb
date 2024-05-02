@@ -7,6 +7,15 @@
         </div>
         <div class="card-body">
           <%=form_with model: @user, url: password_reset_edit_path(token: params[:token]) do |form| %>
+            <% if form.object.errors.any? %>
+              <div class="alert alert-danger">
+                <% form.object.errors.full_messages.each do |message| %>
+                  <div>
+                    <%=message%>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
             <div class="form-group mb-2">
               <%= form.label :password, class: "font-weight-bold" %>
               <%= form.password_field :password, class: "form-control", placeholder: "Enter your password" %>
