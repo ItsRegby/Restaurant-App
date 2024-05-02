@@ -1,0 +1,30 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header bg-primary text-white" >
+          <h1 class="text-center">Edit profile</h1>
+        </div>
+        <div class="card-body">
+          <%= form_with model: @profile, url: profile_edit_path do |form| %>
+            <div class="form-group mb-2">
+              <%= form.label :full_name, class: "font-weight-bold" %>
+              <%= form.text_field :full_name, class: "form-control", placeholder: "Enter your full name" %>
+            </div>
+            <div class="form-group mb-2">
+              <%= form.label :address, class: "font-weight-bold" %>
+              <%= form.text_field :address, class: "form-control", placeholder: "Enter your address" %>
+            </div>
+            <div class="form-group mb-4">
+              <%= form.label :phone_number, class: "font-weight-bold" %>
+              <%= form.text_field :phone_number, class: "form-control", placeholder: "Enter your phone number" %>
+            </div>
+            <div class="card">
+              <%= form.submit "Update  Profile", class: "btn btn-primary btn-block" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

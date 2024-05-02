@@ -1,0 +1,29 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-16">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h1 class="text-center">Menu</h1>
+        </div>
+
+        <div class="row menu-items">
+          <% @menu_items.each do |item| %>
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="menu-item card shadow">
+                <div class="menu-item-image shadow">
+                  <%= image_tag("data:image/png;base64,#{item.image_base64}", alt: "Menu Item Image", class: "img-fluid rounded-top") if item.image_base64.present? %>
+                </div>
+                <div class="card-body">
+                  <h2 class="card-title"><%= item.item_name %></h2>
+                  <p class="card-text"><%= item.description %></p>
+                  <p class="card-text"><strong>Price:</strong> <%= item.price %><strong>$</strong></p>
+                  <button type="button" class="btn btn-outline-success">Add</button>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
