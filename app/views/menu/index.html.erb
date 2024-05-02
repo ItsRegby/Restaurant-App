@@ -19,7 +19,7 @@
                     <p class="card-text"><%= item.description %></p>
                     <p class="card-text"><strong>Price:</strong> <%= item.price %><strong>$</strong></p>
                   </div>
-                  <button class=" add-to-cart btn btn-outline-success" data-item-id="<%= item.id %>">Add to Order</button>
+                  <%= button_to 'Add to the cart', add_to_cart_path(item_id: item.id), class:"btn btn-outline-success", remote: true, method: :post %>
                 </div>
               </div>
             </div>

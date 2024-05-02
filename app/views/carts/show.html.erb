@@ -1,0 +1,28 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h1 class="card-title">Cart</h1>
+        </div>
+        <div class="card-body">
+          <div id="cart-items">
+            <% if @cart_items.any? %>
+              <ul class="list-group">
+                <% @cart_items.each do |item| %>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <%= item.item_name %>
+                    <span class="badge bg-secondary">$<%= item.price %></span>
+                  </li>
+                <% end %>
+              </ul>
+              <%= button_to 'Clear cart', clear_cart_path, method: :delete, remote: true, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger mt-3' %>
+            <% else %>
+              <p class="text-center">Your cart is empty</p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -29,4 +29,10 @@ Rails.application.routes.draw do
 
   get 'categories', to: 'categories#index'
 
+  post 'add_to_cart', to: 'items#add_to_cart', as: :add_to_cart
+  
+  resource :cart, only: [:show] do
+    delete 'clear', on: :collection
+  end
+
 end

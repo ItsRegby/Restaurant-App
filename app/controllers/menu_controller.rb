@@ -11,6 +11,6 @@ class MenuController < ApplicationController
     @menu_items.each do |item|
       item.image_base64 = Base64.encode64(item.image)
     end
-    render 'index' # or whatever your index view is named
+    render 'index'
   end
 end
