@@ -2,16 +2,16 @@
   <div class="row justify-content-center">
     <div class="col-md-4">
       <div class="card">
-        <div class="card-header bg-primary text-white" >
+        <div class="card-header bg-primary text-white">
           <h1 class="text-center">Reset your password</h1>
         </div>
         <div class="card-body">
-          <%=form_with model: @user, url: password_reset_edit_path(token: params[:token]) do |form| %>
+          <%= form_with model: @user, url: password_reset_edit_path(token: params[:token]) do |form| %>
             <% if form.object.errors.any? %>
               <div class="alert alert-danger">
                 <% form.object.errors.full_messages.each do |message| %>
                   <div>
-                    <%=message%>
+                    <%= message %>
                   </div>
                 <% end %>
               </div>

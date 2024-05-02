@@ -6,7 +6,7 @@ one:
   price: 9.99
   category: one
   can_be_prepared: false
-  image: 
+  image:
 
 two:
   item_name: MyString

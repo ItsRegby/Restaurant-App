@@ -1,23 +1,25 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-md-16">
-      <div class="card">
-        <div class="card-header bg-primary text-white">
+    <div class="col-md-12">
+      <div class="custom-card">
+        <div class="custom-card bg-primary text-white">
           <h1 class="text-center">Menu</h1>
         </div>
 
-        <div class="row menu-items">
+        <div class="row menu-items align-items-stretch p-3">
           <% @menu_items.each do |item| %>
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="menu-item card shadow">
+            <div class="col-lg-3 p-2">
+              <div class="menu-item card shadow d-flex flex-column">
                 <div class="menu-item-image shadow">
                   <%= image_tag("data:image/png;base64,#{item.image_base64}", alt: "Menu Item Image", class: "img-fluid rounded-top") if item.image_base64.present? %>
                 </div>
-                <div class="card-body">
-                  <h2 class="card-title"><%= item.item_name %></h2>
-                  <p class="card-text"><%= item.description %></p>
-                  <p class="card-text"><strong>Price:</strong> <%= item.price %><strong>$</strong></p>
-                  <button type="button" class="btn btn-outline-success">Add</button>
+                <div class="card-body d-flex flex-column justify-content-between">
+                  <div>
+                    <h2 class="card-title"><%= item.item_name %></h2>
+                    <p class="card-text"><%= item.description %></p>
+                    <p class="card-text"><strong>Price:</strong> <%= item.price %><strong>$</strong></p>
+                  </div>
+                  <button class=" add-to-cart btn btn-outline-success" data-item-id="<%= item.id %>">Add to Order</button>
                 </div>
               </div>
             </div>

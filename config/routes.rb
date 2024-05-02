@@ -24,7 +24,9 @@ Rails.application.routes.draw do
   patch "profile/edit", to: "profile#update"
   post "profile/edit", to: "profile#create"
 
+  get '/menu', to: 'menu#index', as: 'menu'
+  get '/menu/:category_id', to: 'menu#category', as: 'menu_category'
 
-  get 'menu', to: 'menu#index'
+  get 'categories', to: 'categories#index'
 
 end

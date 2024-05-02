@@ -1,0 +1,39 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="custom-card">
+        <div class="custom-card bg-primary text-white ">
+          <h1 class="text-center">Categories</h1>
+        </div>
+        <div class="row menu-items align-items-stretch p-3">
+          <% @categories_items.each do |item| %>
+            <div class="col-md-2 p-2">
+              <div class="menu-item card shadow d-flex flex-column">
+                <div class="menu-item-image">
+                  <% if item.image_base64.present? %>
+                    <%= link_to menu_category_path(item.category_id), class: "nav-link" do %>
+                      <%= image_tag("data:image/png;base64,#{item.image_base64}", alt: "Menu Item Image", class: "img-fluid rounded-top mx-auto d-block") %>
+                    <% end %>
+                  <% end %>
+                </div>
+                <div class="card-body d-flex flex-column justify-content-between">
+                  <div>
+                    <% if item.image_base64.present? %>
+                      <%= link_to menu_category_path(item.category_id), class: "nav-link" do %>
+                        <h2 class="card-title text-center"><%= item.category_name %></h2>
+                      <% end %>
+                    <% else %>
+                      <%= link_to menu_category_path(item.category_id), class: "nav-link" do %>
+                        <h2 class="card-title text-center"><%= item.category_name %></h2>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

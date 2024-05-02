@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link active" aria-current="page" href="/home">Home</a>
-        <a class="nav-link" href="/menu">Menu</a>
+        <a class="nav-link" href="/categories">Menu</a>
         <% if Current.user %>
           <a class="nav-link" href="/profile/edit">Profile</a>
         <% end %>
@@ -18,9 +18,9 @@
             <%= link_to Current.user.email, edit_password_path, class: "nav-link" %>
           </li>
           <li class="nav-item">
-            <%=button_to "Logout", logout_path, method: :delete, class: "btn btn-outline-secondary" %>
+            <%= button_to "Logout", logout_path, method: :delete, class: "btn btn-outline-secondary" %>
           </li>
-        <%else%>
+        <% else %>
           <li class="nav-item">
             <%= link_to "Login", sign_in_path, class: "btn btn-outline-primary" %>
           </li>

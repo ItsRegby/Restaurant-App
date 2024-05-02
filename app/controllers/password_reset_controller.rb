@@ -1,6 +1,7 @@
 class PasswordResetController < ApplicationController
   def new
   end
+
   def create
     @user = User.find_by(email: params[:email])
 
@@ -15,6 +16,7 @@ class PasswordResetController < ApplicationController
   rescue ActiveSupport::MessageVerifier::InvalidSignature
     redirect_to sign_in_path, alert: "Your token has expired, please request a new one."
   end
+
   def update
     @user = User.find_signed(params[:token], purpose: "password_reset")
     if @user.update(password_params)
@@ -25,6 +27,7 @@ class PasswordResetController < ApplicationController
   end
 
   private
+
   def password_params
     params.require(:user).permit(:password, :password_confirmation)
   end

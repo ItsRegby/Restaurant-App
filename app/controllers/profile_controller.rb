@@ -1,5 +1,6 @@
 class ProfileController < ApplicationController
   before_action :require_user_logged_in!
+
   def edit
     @profile = UserProfile.find_or_initialize_by(user_id: Current.user.id)
   end

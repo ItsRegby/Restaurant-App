@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-md-4">
       <div class="card">
-        <div class="card-header bg-primary text-white" >
+        <div class="card-header bg-primary text-white">
           <h1 class="text-center">Sign In!</h1>
         </div>
         <div class="card-body">
@@ -15,7 +15,7 @@
             <div class="form-group mb-4">
               <%= form.label :password, class: "font-weight-bold" %>
               <%= form.password_field :password, class: "form-control", placeholder: "Enter your password" %>
-              <%=link_to "Forgot your password?", password_reset_path %>
+              <%= link_to "Forgot your password?", password_reset_path %>
             </div>
             <div class="card">
               <%= form.submit "Sign Ip", class: "btn btn-primary btn-block" %>

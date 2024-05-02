@@ -10,7 +10,6 @@ class User < ApplicationRecord
     self.user_id = SecureRandom.hex(10)
   end
 
-
   # Зв'язок один до одного з профілем користувача
   has_one :user_profile, dependent: :destroy
 
