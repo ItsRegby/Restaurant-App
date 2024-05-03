@@ -6,7 +6,7 @@
 #
 #     I18n.t "hello"
 #
-# In views, this is aliased to just `t`:
+# In reviews, this is aliased to just `t`:
 #
 #     <%= t("hello") %>
 #

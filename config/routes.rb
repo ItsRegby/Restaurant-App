@@ -38,4 +38,6 @@ Rails.application.routes.draw do
 
   resources :orders, only: [:create, :index, :show]
 
+  resources :reviews, only: [:index, :create, :new]
+
 end
