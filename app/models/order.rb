@@ -1,10 +1,10 @@
 class Order < ApplicationRecord
-  # Зв'язок багато до одного з користувачем (клієнтом)
-  belongs_to :customer, class_name: 'User'
+  belongs_to :user, foreign_key: 'user_id'
 
-  # Зв'язок один до багатьох з деталями замовлення
-  belongs_to :order_detail, dependent: :destroy
+  validates :user_id, presence: true
+  validates :added_items_data, presence: true
+  validates :total_amount, presence: true
+  validates :status, presence: true
 
-  # Перевірка наявності клієнта
-  validates :customer_id, presence: true
+  attribute :added_items_data, :jsonb
 end

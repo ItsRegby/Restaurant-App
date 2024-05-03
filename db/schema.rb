@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_220001) do
 
   create_table "categories", primary_key: "category_id", id: :serial, force: :cascade do |t|
     t.string "category_name", limit: 255, null: false
+    t.binary "image"
   end
 
   create_table "menu", primary_key: "item_id", id: :serial, force: :cascade do |t|
@@ -29,17 +30,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_220001) do
     t.integer "category_id", null: false
     t.boolean "can_be_prepared", null: false
     t.binary "image"
-  end
-
-  create_table "order_details", primary_key: "order_detail_id", id: :serial, force: :cascade do |t|
-    t.integer "order_id", null: false
-    t.jsonb "added_items_data", null: false, array: true
-    t.decimal "total_amount", precision: 10, scale: 2, null: false
-    t.datetime "order_date", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["category_id"], name: "1"
   end
 
   create_table "orders", primary_key: "order_id", id: :serial, force: :cascade do |t|
-    t.string "customer_id", limit: 255, null: false
+    t.string "user_id", limit: 255, null: false
+    t.jsonb "added_items_data", null: false
+    t.decimal "total_amount", precision: 10, scale: 2, null: false
+    t.datetime "order_date", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "status", limit: 50, null: false
   end
 
   create_table "reviews", primary_key: "review_id", id: :serial, force: :cascade do |t|
@@ -67,6 +66,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_220001) do
     t.unique_constraint ["email"], name: "users_email_key"
   end
 
-  add_foreign_key "menu", "categories", primary_key: "category_id", name: "menu_category_id_fkey"
-  add_foreign_key "order_details", "orders", primary_key: "order_id", name: "order_details_order_id_fkey"
+  add_foreign_key "menu", "categories", primary_key: "category_id", name: "menu_category_id_fkey", on_delete: :cascade, validate: false
+  add_foreign_key "orders", "users", primary_key: "user_id", name: "orders_user_id_fkey"
 end

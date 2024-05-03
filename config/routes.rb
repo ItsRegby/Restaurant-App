@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   post "profile/edit", to: "profile#create"
 
   get '/menu', to: 'menu#index', as: 'menu'
-  get '/menu/:category_id', to: 'menu#category', as: 'menu_category'
+  get '/menu/:category_id', to: 'menu#category', as: :menu_category
 
   get 'categories', to: 'categories#index'
 
@@ -33,6 +33,9 @@ Rails.application.routes.draw do
   
   resource :cart, only: [:show] do
     delete 'clear', on: :collection
+    post 'remove_one', on: :collection
   end
+
+  resources :orders, only: [:create, :index, :show]
 
 end

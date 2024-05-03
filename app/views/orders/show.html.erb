@@ -1,0 +1,46 @@
+<% if @order %>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-16">
+        <div class="custom-card">
+          <div class="custom-card bg-primary text-white">
+            <h1 class="text-center">Order Details</h1>
+          </div>
+
+          <div class="row menu-items align-items-stretch p-3">
+            <% @items_with_images.each do |item| %>
+              <div class="col-lg-3 p-2">
+                <div class="menu-item card shadow d-flex flex-column">
+                  <div class="menu-item-image shadow">
+                    <%= image_tag("data:image/png;base64,#{item['image_base64']}", alt: "Menu Item Image", class: "img-fluid rounded-top") %>
+                  </div>
+                  <div class="card-body d-flex flex-column justify-content-between">
+                    <div class="row">
+                      <h2 class="card-title"><%= item['name'] %></h2>
+                      <p class="card-text col">Quantity: <%= item['quantity'] %></p>
+                      <p class="card-text col">Price: <%= item['price'] %> $</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <p><strong>Total Amount:</strong> <%= @order.total_amount %> $</p>
+                <p><strong>Order Date:</strong> <%= @order.order_date.strftime("%B %d, %Y %H:%M:%S")%></p>
+                <p><strong>Status:</strong> <%= @order.status %></p>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <%= link_to 'Back', orders_path, class: "btn btn-secondary" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <p>Order not found</p>
+<% end %>
