@@ -39,6 +39,9 @@ Rails.application.routes.draw do
   resources :orders, only: [:create, :index, :show]
   patch 'orders/:id/cancel', to: 'orders#cancel', as: :cancel_order
   delete 'orders/:id', to: 'orders#destroy', as: :delete_order
+  patch 'orders/:order_id/items/:id/update_quantity', to: 'orders#update_quantity', as: :update_order_item_quantity
+  delete 'orders/:order_id/items/:item_id', to: 'orders#destroy_item', as: :delete_order_item
+  patch 'orders/:id/update_status', to: 'orders#update_status', as: :update_order_status
 
   resources :reviews, only: [:index, :create, :new]
 

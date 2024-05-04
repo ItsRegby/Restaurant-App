@@ -19,6 +19,15 @@
                       <p class="card-text col">Quantity: <%= item['quantity'] %></p>
                       <p class="card-text col">Price: <%= item['price'] %> $</p>
                     </div>
+                    <% if Current.user.admin? %>
+                      <%= button_to "Delete", delete_order_item_path(order_id: @order.id, item_id: item['item_id']), method: :delete, data: { confirm: "Are you sure you want to delete this item from the order?" }, class: "btn btn-danger btn-sm mb-2" %>
+                      <%= form_tag update_order_item_quantity_path(@order, item['item_id']), method: :patch, class: "form-inline" do %>
+                        <%= number_field_tag "item[quantity]", item['quantity'], class: "form-control form-control-sm mr-2", min: 1 %>
+                        <%= submit_tag "Update", class: "btn btn-primary btn-sm" %>
+                      <% end %>
+
+
+                    <% end %>
                   </div>
                 </div>
               </div>
@@ -27,9 +36,16 @@
               <div class="col-md-12">
                 <p><strong>Total Amount:</strong> <%= @order.total_amount %> $</p>
                 <p><strong>Order Date:</strong> <%= @order.order_date.strftime("%B %d, %Y %H:%M:%S") %></p>
-                <p><strong>Status:</strong> <%= @order.status %></p>
-                <% if @order.status == "pending" %>
-                  <%= button_to "Cancel Order", cancel_order_path(@order), method: :patch, data: { confirm: "Are you sure you want to cancel this order?" }, class: "btn btn-danger" %>
+                <% if Current.user.admin? %>
+                  <%= form_for(@order, url: update_order_status_path(@order), method: :patch) do |f| %>
+                    <%= f.select :status, Order.statuses.keys, class: "form-control mb-2" %>
+                    <%= f.submit "Update Status", class: "btn btn-primary btn-sm mb-2" %>
+                  <% end %>
+                <% else %>
+                  <p><strong>Status:</strong> <%= @order.status %></p>
+                  <% if @order.status == "pending" %>
+                    <%= button_to "Cancel Order", cancel_order_path(@order), method: :patch, data: { confirm: "Are you sure you want to cancel this order?" }, class: "btn btn-danger btn-sm mb-2" %>
+                  <% end %>
                 <% end %>
               </div>
             </div>

@@ -31,6 +31,59 @@ class OrdersController < ApplicationController
     end
   end
 
+  def update_status
+    @order = Order.find(params[:id])
+    if @order.update(order_params)
+      redirect_to @order, notice: 'Order status updated successfully!'
+    else
+      redirect_to @order, alert: 'Failed to update order status.'
+    end
+  end
+
+  def destroy_item
+    @order = Order.find(params[:order_id])
+    item = JSON.parse(@order.added_items_data.gsub('\"', '"')).find { |i| i['item_id'] == params[:item_id].to_i }
+    if item
+      items = JSON.parse(@order.added_items_data)
+      items.delete(item)
+      @order.update(added_items_data: items.to_json)
+      redirect_to @order, notice: 'Item removed from order successfully!'
+    else
+      redirect_to @order, alert: 'Failed to remove item from order.'
+    end
+  end
+
+  def update_quantity
+    @order = Order.find(params[:order_id])
+    items = JSON.parse(@order.added_items_data)
+
+    item_to_update = items.find { |item| item['item_id'] == params[:id].to_i }
+
+    if item_to_update
+      old_quantity = item_to_update['quantity'].to_i
+      new_quantity = params[:item][:quantity].to_i
+
+      item_to_update['quantity'] = new_quantity
+      @order.added_items_data = items.to_json
+
+      @order.total_amount -= old_quantity * item_price(item_to_update['item_id'])
+      @order.total_amount += new_quantity * item_price(item_to_update['item_id'])
+
+      @order.status = 'pending'
+
+      if @order.save
+        redirect_to @order, notice: 'Item quantity updated successfully!'
+      else
+        redirect_to @order, alert: 'Failed to save order after updating item quantity'
+      end
+    else
+      redirect_to @order, alert: 'Failed to update item quantity. Item not found in order.'
+    end
+  end
+
+
+
+
 
   def index
     if Current.user.admin?
@@ -43,6 +96,7 @@ class OrdersController < ApplicationController
 
   def show
     @order = Order.find_by(order_id: params[:id])
+    @order_statuses = { 0 => 'pending', 1 => 'confirmed', 2 => 'shipped', 3 => 'delivered' }
 
     if @order
       if Current.user.admin? || @order.user_id == Current.user.id
@@ -65,7 +119,6 @@ class OrdersController < ApplicationController
     end
   end
 
-
   def destroy
     @order = Order.find(params[:id])
     @order.destroy
@@ -73,6 +126,14 @@ class OrdersController < ApplicationController
   end
 
   private
+  def item_price(item_id)
+    item = Menu.find_by(item_id: item_id)
+    item.price if item
+  end
+
+  def order_params
+    params.require(:order).permit(:status)
+  end
 
   def require_user_profile
     unless Current.user.user_profile.present?
@@ -80,12 +141,16 @@ class OrdersController < ApplicationController
     end
   end
 
-  def calculate_total_amount(cart_items)
+  def calculate_total_amount(items)
     total_amount = 0
 
-    cart_items.each do |item|
-      menu_item = Menu.find(item[:item_id])
-      total_amount += menu_item.price * item[:quantity]
+    items.each do |item|
+      menu_item = Menu.find_by(item_id: item[:item_id])
+      if menu_item
+        total_amount += menu_item.price * item[:quantity]
+      else
+        puts "Menu item with id #{item[:item_id]} not found."
+      end
     end
 
     total_amount

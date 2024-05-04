@@ -5,6 +5,8 @@ class Order < ApplicationRecord
   validates :added_items_data, presence: true
   validates :total_amount, presence: true
   validates :status, presence: true
+  
+  enum status: [:pending, :confirmed, :shipped, :delivered]
 
   attribute :added_items_data, :jsonb
 end
