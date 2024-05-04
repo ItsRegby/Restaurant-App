@@ -11,28 +11,35 @@
               <thead class="thead-dark">
               <tr>
                 <th class="text-center" scope="col">Order ID</th>
+                <th class="text-center" scope="col">User ID</th>
                 <th class="text-center" scope="col">Total Amount</th>
                 <th class="text-center" scope="col">Order Date</th>
                 <th class="text-center" scope="col">Status</th>
                 <th class="text-center" scope="col">Info</th>
+                <th class="text-center" scope="col">Delete</th>
               </tr>
               </thead>
               <tbody>
               <% @orders.each do |order| %>
                 <tr>
                   <td class="text-center"><%= order.order_id %></td>
+                  <td class="text-center"><%= order.user_id %></td>
                   <td class="text-center">$<%= order.total_amount %></td>
                   <td class="text-center"><%= order.order_date.strftime("%B %d, %Y") %></td>
                   <td class="text-center"><%= order.status %></td>
                   <td class="text-center"><%= link_to order_path(order), class: "btn btn-outline-info btn-sm container-fluid d-flex justify-content-center " do %>
                       Details
                     <% end %></td>
+                  <td class="text-center">
+                    <%= form_for(order, method: :delete, url: order_path(order), data: { confirm: 'Are you sure?' }) do |f| %>
+                      <%= f.submit 'Delete', class: 'btn btn-outline-danger btn-sm' %>
+                    <% end %>
+                  </td>
                 </tr>
               <% end %>
               </tbody>
             </table>
           </div>
-
         <% else %>
           <div class="container text-center">
             <p class="mt-4">No orders found</p>

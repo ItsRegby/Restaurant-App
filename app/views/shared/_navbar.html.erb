@@ -8,17 +8,22 @@
       <div class="navbar-nav">
         <a class="nav-link <%= 'active' if current_page?(home_path) %>" href="/home">Home</a>
         <a class="nav-link <%= 'active' if current_page?(categories_path) %>" href="/categories">Menu</a>
-        <% if Current.user %>
+        <% if Current.user && Current.user.role != 'admin' %>
           <a class="nav-link <%= 'active' if current_page?(profile_edit_path) %>" href="/profile/edit">Profile</a>
           <a class="nav-link <%= 'active' if current_page?(orders_path) %>" href="/orders">Orders</a>
         <% end %>
-        <a class="nav-link <%= 'active' if current_page?(orders_path) %>" href="/reviews">Reviews</a>
+        <% if Current.user && Current.user.admin? %>
+          <a class="nav-link <%= 'active' if current_page?(orders_path) %>" href="/orders">Orders</a>
+        <% end %>
+        <a class="nav-link <%= 'active' if current_page?(reviews_path ) %>" href="/reviews">Reviews</a>
       </div>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1">
         <% if Current.user %>
-          <a class="navbar-brand" href="/cart">
-            <img src="https://www.svgrepo.com/download/34974/shopping-cart.svg" alt="Bootstrap" width="30" height="30">
-          </a>
+          <% if Current.user.role != 'admin' %>
+            <a class="navbar-brand" href="/cart">
+              <img src="https://www.svgrepo.com/download/34974/shopping-cart.svg" alt="Bootstrap" width="30" height="30">
+            </a>
+          <% end %>
           <li class="nav-item">
             <%= link_to Current.user.email, edit_password_path, class: "nav-link" %>
           </li>

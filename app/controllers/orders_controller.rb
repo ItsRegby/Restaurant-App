@@ -22,26 +22,54 @@ class OrdersController < ApplicationController
     end
   end
 
-
+  def cancel
+    @order = Order.find(params[:id])
+    if @order.update(status: 'canceled')
+      redirect_to orders_path, notice: 'Order canceled successfully!'
+    else
+      redirect_to @order, alert: 'Failed to cancel order.'
+    end
+  end
 
 
   def index
-    @orders = Order.where(user_id: Current.user.id)
+    if Current.user.admin?
+      @orders = Order.all
+      render 'admin_index'
+    else
+      @orders = Order.where(user_id: Current.user.id)
+    end
   end
 
   def show
-    @order = Order.find(params[:id])
-    @added_items_data = JSON.parse(@order.added_items_data.gsub('\"', '"'))
-    @items_with_images = @added_items_data.map do |item|
-      menu_item = Menu.find(item['item_id'])
-      {
-        'item_id' => item['item_id'],
-        'quantity' => item['quantity'],
-        'name' => menu_item.item_name,
-        'price' => menu_item.price,
-        'image_base64' => Base64.encode64(menu_item.image)
-      }
+    @order = Order.find_by(order_id: params[:id])
+
+    if @order
+      if Current.user.admin? || @order.user_id == Current.user.id
+        @added_items_data = JSON.parse(@order.added_items_data.gsub('\"', '"'))
+        @items_with_images = @added_items_data.map do |item|
+          menu_item = Menu.find(item['item_id'])
+          {
+            'item_id' => item['item_id'],
+            'quantity' => item['quantity'],
+            'name' => menu_item.item_name,
+            'price' => menu_item.price,
+            'image_base64' => Base64.encode64(menu_item.image)
+          }
+        end
+      else
+        redirect_to orders_path, alert: "You are not authorized to view this order."
+      end
+    else
+      redirect_to orders_path, alert: "Order not found."
     end
+  end
+
+
+  def destroy
+    @order = Order.find(params[:id])
+    @order.destroy
+    redirect_to orders_path, notice: 'Order was successfully deleted.'
   end
 
   private

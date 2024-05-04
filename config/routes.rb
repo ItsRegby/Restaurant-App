@@ -37,7 +37,10 @@ Rails.application.routes.draw do
   end
 
   resources :orders, only: [:create, :index, :show]
+  patch 'orders/:id/cancel', to: 'orders#cancel', as: :cancel_order
+  delete 'orders/:id', to: 'orders#destroy', as: :delete_order
 
   resources :reviews, only: [:index, :create, :new]
 
+  #match '*path', to: 'home#home', via: :all
 end

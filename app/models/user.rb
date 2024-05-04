@@ -4,6 +4,10 @@ class User < ApplicationRecord
 
   before_create :generate_user_id
 
+  def admin?
+    role == 'admin'
+  end
+
   private
 
   def generate_user_id

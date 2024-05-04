@@ -1,5 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :require_user_logged_in!, except: [:index]
+  before_action :require_user_profile, only: [:create]
 
   def index
     @reviews = Review.all
@@ -24,6 +25,11 @@ class ReviewsController < ApplicationController
 
   private
 
+  def require_user_profile
+    unless Current.user.user_profile.present?
+      redirect_to profile_edit_path, alert: "Please fill in your profile before placing an order."
+    end
+  end
   def review_params
     params.require(:review).permit(:review_text, :rating)
   end

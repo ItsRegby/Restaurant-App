@@ -1,13 +1,12 @@
-<% if @order %>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-16">
-        <div class="custom-card">
-          <div class="custom-card bg-primary text-white">
-            <h1 class="text-center">Order Details</h1>
-          </div>
-
-          <div class="row menu-items align-items-stretch p-3">
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-16">
+      <div class="custom-card">
+        <div class="custom-card bg-primary text-white">
+          <h1 class="text-center">Order Details</h1>
+        </div>
+        <div class="row menu-items align-items-stretch p-3">
+          <% if @order %>
             <% @items_with_images.each do |item| %>
               <div class="col-lg-3 p-2">
                 <div class="menu-item card shadow d-flex flex-column">
@@ -27,8 +26,11 @@
             <div class="row mt-3">
               <div class="col-md-12">
                 <p><strong>Total Amount:</strong> <%= @order.total_amount %> $</p>
-                <p><strong>Order Date:</strong> <%= @order.order_date.strftime("%B %d, %Y %H:%M:%S")%></p>
+                <p><strong>Order Date:</strong> <%= @order.order_date.strftime("%B %d, %Y %H:%M:%S") %></p>
                 <p><strong>Status:</strong> <%= @order.status %></p>
+                <% if @order.status == "pending" %>
+                  <%= button_to "Cancel Order", cancel_order_path(@order), method: :patch, data: { confirm: "Are you sure you want to cancel this order?" }, class: "btn btn-danger" %>
+                <% end %>
               </div>
             </div>
             <div class="row mt-3">
@@ -36,11 +38,11 @@
                 <%= link_to 'Back', orders_path, class: "btn btn-secondary" %>
               </div>
             </div>
-          </div>
+          <% else %>
+            <p>Order not found</p>
+          <% end %>
         </div>
       </div>
     </div>
   </div>
-<% else %>
-  <p>Order not found</p>
-<% end %>
+</div>

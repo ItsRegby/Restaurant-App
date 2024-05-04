@@ -5,7 +5,7 @@
         <div class="custom-card bg-primary text-white">
           <h2 class="text-center">Create a review</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body container p-2">
           <%= form_with(model: @review, url: reviews_path, method: :post) do |form| %>
             <% if @review.errors.any? %>
               <div class="alert alert-danger">
