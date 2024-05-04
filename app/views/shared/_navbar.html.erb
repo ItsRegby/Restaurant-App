@@ -14,6 +14,7 @@
         <% end %>
         <% if Current.user && Current.user.admin? %>
           <a class="nav-link <%= 'active' if current_page?(orders_path) %>" href="/orders">Orders</a>
+          <a class="nav-link <%= 'active' if current_page?(new_menu_path) %>" href="/menu/new">Add Dish</a>
         <% end %>
         <a class="nav-link <%= 'active' if current_page?(reviews_path ) %>" href="/reviews">Reviews</a>
       </div>

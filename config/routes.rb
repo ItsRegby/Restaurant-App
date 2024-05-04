@@ -24,7 +24,8 @@ Rails.application.routes.draw do
   patch "profile/edit", to: "profile#update"
   post "profile/edit", to: "profile#create"
 
-  get '/menu', to: 'menu#index', as: 'menu'
+  resources :menu, only: [:new, :create, :edit, :update, :destroy]
+  get '/menu', to: 'menu#index', as: 'menu_indx'
   get '/menu/:category_id', to: 'menu#category', as: :menu_category
 
   get 'categories', to: 'categories#index'
@@ -43,7 +44,7 @@ Rails.application.routes.draw do
   delete 'orders/:order_id/items/:item_id', to: 'orders#destroy_item', as: :delete_order_item
   patch 'orders/:id/update_status', to: 'orders#update_status', as: :update_order_status
 
-  resources :reviews, only: [:index, :create, :new]
+  resources :reviews, only: [:index, :create, :new, :destroy]
 
   #match '*path', to: 'home#home', via: :all
 end

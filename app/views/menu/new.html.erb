@@ -1,0 +1,42 @@
+<!-- new.html.erb -->
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="custom-card">
+        <div class="custom-card bg-primary text-white">
+          <h1 class="text-center">Add New Menu Item</h1>
+        </div>
+        <div class="p-3">
+          <%= form_with(model: @menu_item, url: menu_index_path, local: true) do |form| %>
+        <div class="mb-3">
+              <%= form.label :item_name, class: "form-label" %>
+              <%= form.text_field :item_name, class: "form-control" %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :description, class: "form-label" %>
+              <%= form.text_area :description, class: "form-control" %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :price, class: "form-label" %>
+              <%= form.number_field :price, class: "form-control", step: "0.01" %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :category_id, class: "form-label" %>
+              <%= form.select :category_id, options_for_select(Category.pluck(:category_name, :category_id)), {}, class: "form-control" %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :can_be_prepared, class: "form-label" %>
+              <%= form.check_box :can_be_prepared, class: "form-check-input" %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :image, class: "form-label" %>
+              <%= form.file_field :image, class: "form-control" %>
+            </div>
+            <%= form.submit "Add Menu Item", class: "btn btn-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
   before_action :require_user_logged_in!, except: [:index]
   before_action :require_user_profile, only: [:create]
+  before_action :set_review, only: [:destroy]
 
   def index
     @reviews = Review.all
@@ -22,9 +23,20 @@ class ReviewsController < ApplicationController
       render :new
     end
   end
+  def destroy
+    if @review.destroy
+      flash[:success] = 'Відгук успішно видалено!'
+    else
+      flash[:alert] = 'Помилка при видаленні відгуку'
+    end
+    redirect_to reviews_path
+  end
 
   private
 
+  def set_review
+    @review = Review.find(params[:id])
+  end
   def require_user_profile
     unless Current.user.user_profile.present?
       redirect_to profile_edit_path, alert: "Please fill in your profile before placing an order."

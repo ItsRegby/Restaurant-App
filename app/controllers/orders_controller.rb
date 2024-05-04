@@ -42,16 +42,31 @@ class OrdersController < ApplicationController
 
   def destroy_item
     @order = Order.find(params[:order_id])
-    item = JSON.parse(@order.added_items_data.gsub('\"', '"')).find { |i| i['item_id'] == params[:item_id].to_i }
-    if item
-      items = JSON.parse(@order.added_items_data)
-      items.delete(item)
-      @order.update(added_items_data: items.to_json)
-      redirect_to @order, notice: 'Item removed from order successfully!'
+    items = JSON.parse(@order.added_items_data)
+
+    if items.length > 1
+      item = items.find { |i| i['item_id'] == params[:item_id].to_i }
+      if item
+        item_price = item_price(item['item_id'])
+        old_quantity = item['quantity'].to_i
+
+        items.delete(item)
+        @order.update(added_items_data: items.to_json)
+        @order.total_amount -= old_quantity * item_price
+
+        if @order.save
+          redirect_to @order, notice: 'Item removed from order successfully!'
+        else
+          redirect_to @order, alert: 'Failed to save order after removing item.'
+        end
+      else
+        redirect_to @order, alert: 'Failed to remove item from order.'
+      end
     else
-      redirect_to @order, alert: 'Failed to remove item from order.'
+      redirect_to @order, alert: 'Cannot remove the last item from the order.'
     end
   end
+
 
   def update_quantity
     @order = Order.find(params[:order_id])
@@ -80,11 +95,6 @@ class OrdersController < ApplicationController
       redirect_to @order, alert: 'Failed to update item quantity. Item not found in order.'
     end
   end
-
-
-
-
-
   def index
     if Current.user.admin?
       @orders = Order.all
@@ -96,7 +106,7 @@ class OrdersController < ApplicationController
 
   def show
     @order = Order.find_by(order_id: params[:id])
-    @order_statuses = { 0 => 'pending', 1 => 'confirmed', 2 => 'shipped', 3 => 'delivered' }
+    @order_statuses = { 'pending' => 'pending', 'confirmed' => 'confirmed', 'shipped' => 'shipped', 'delivered' => 'delivered' }
 
     if @order
       if Current.user.admin? || @order.user_id == Current.user.id
