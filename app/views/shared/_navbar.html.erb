@@ -1,22 +1,29 @@
-<nav class="navbar navbar-expand-lg" style="background-color: lightsalmon;">
+<nav class="navbar navbar-expand-lg" style="background-color: #0F172B;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/home">Restaurant</a>
+    <a class="navbar-brand text-white" href="/home">Restaurant</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link <%= 'active' if current_page?(home_path) %>" href="/home">Home</a>
-        <a class="nav-link <%= 'active' if current_page?(categories_path) %>" href="/categories">Menu</a>
+        <a class="nav-link <%= 'active text-white' if current_page?(home_path) %>" href="/home">Home</a>
+        <a class="nav-link <%= 'active text-white' if current_page?(categories_path) %>" href="/categories">Menu</a>
         <% if Current.user && Current.user.role != 'admin' %>
-          <a class="nav-link <%= 'active' if current_page?(profile_edit_path) %>" href="/profile/edit">Profile</a>
-          <a class="nav-link <%= 'active' if current_page?(orders_path) %>" href="/orders">Orders</a>
+          <a class="nav-link <%= 'active text-white' if current_page?(profile_edit_path) %>" href="/profile/edit">Profile</a>
+          <a class="nav-link <%= 'active text-white' if current_page?(orders_path) %>" href="/orders">Orders</a>
         <% end %>
         <% if Current.user && Current.user.admin? %>
-          <a class="nav-link <%= 'active' if current_page?(orders_path) %>" href="/orders">Orders</a>
-          <a class="nav-link <%= 'active' if current_page?(new_menu_path) %>" href="/menu/new">Add Dish</a>
+          <a class="nav-link <%= 'active text-white' if current_page?(orders_path) %>" href="/orders">Orders</a>
+          <a class="nav-link <%= 'active text-white' if current_page?(new_menu_path) %>" href="/menu/new">Add Dish</a>
         <% end %>
-        <a class="nav-link <%= 'active' if current_page?(reviews_path ) %>" href="/reviews">Reviews</a>
+        <a class="nav-link <%= 'active text-white' if current_page?(reviews_path ) %>" href="/reviews">Reviews</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Pages </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/contact">Contact</a></li>
+            <li><a class="dropdown-item" href="/about_us">About us</a></li>
+          </ul>
+        </li>
       </div>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1">
         <% if Current.user %>

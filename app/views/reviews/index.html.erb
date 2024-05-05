@@ -6,7 +6,9 @@
           <h1 class="text-center">User reviews</h1>
         </div>
         <div class="mt-3 text-center">
-          <%= link_to "Add review", new_review_path, class: "btn btn-outline-primary" unless Current.user.admin? %>
+          <% if Current.user %>
+            <%= link_to "Add review", new_review_path, class: "btn btn-outline-primary" unless Current.user.admin?  %>
+          <% end %>
         </div>
         <% @reviews.each do |review| %>
           <div class="review mt-4 mb-4">
@@ -21,10 +23,12 @@
               </div>
               <div class="card-body row">
                 <p class="card-text col"><strong>Response:</strong> <%= review.review_text %></p>
-                <% if Current.user.admin? %>
-                  <div class="d-flex justify-content-center">
-                    <%= button_to "Delete", review_path(review), method: :delete, data: { confirm: "Are you sure you want to delete this review?" }, class: "btn btn-danger btn-sm mb-2" %>
-                  </div>
+                <% if Current.user %>
+                  <% if Current.user.admin? %>
+                    <div class="d-flex justify-content-center">
+                      <%= button_to "Delete", review_path(review), method: :delete, data: { confirm: "Are you sure you want to delete this review?" }, class: "btn btn-danger btn-sm mb-2" %>
+                    </div>
+                  <% end %>
                 <% end %>
               </div>
             </div>

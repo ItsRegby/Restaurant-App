@@ -53,14 +53,14 @@
                 <% end %>
               </div>
             </div>
-            <div class="row mt-3">
-              <div class="col-md-12">
-                <%= link_to 'Back', orders_path, class: "btn btn-secondary" %>
-              </div>
-            </div>
           <% else %>
             <p>Order not found</p>
           <% end %>
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <%= link_to 'Back', orders_path, class: "btn btn-secondary" %>
+            </div>
+          </div>
         </div>
       </div>
     </div>

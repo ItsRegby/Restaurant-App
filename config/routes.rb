@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
   get "home", to: "home#home"
+  get "contact", to: "contact#contact"
+  get "about_us", to: "about_us#about_us"
 
   get "password", to: "password#edit", as: "edit_password"
   patch "password", to: "password#update"
