@@ -36,7 +36,7 @@
             <div class="row mt-3">
               <div class="col-md-12">
                 <p><strong>Total Amount:</strong> <%= @order.total_amount %> $</p>
-                <p><strong>Order Date:</strong> <%= @order.order_date.strftime("%B %d, %Y %H:%M:%S") %></p>
+                <p><strong>Order Date:</strong> <%= @order.order_date.strftime("%B %d, %Y %H:%M") %></p>
                 <% if Current.user.admin? %>
                   <%= form_for(@order, url: update_order_status_path(@order), method: :patch) do |f| %>
                     <%= f.select :status, @order_statuses.invert, class: "form-control mb-2" %>

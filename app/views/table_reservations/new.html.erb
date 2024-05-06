@@ -1,40 +1,67 @@
-<h1>Create a new reservation</h1>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="custom-card">
+        <div class="custom-card bg-primary text-white">
+          <h1 class="text-center">Create a new reservation</h1>
+        </div>
+        <div class="p-3">
+          <%= form_with(model: @reservations, url: reservations_path, method: :post) do |form| %>
+            <% if @reservations.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(@reservations.errors.count, "error") %> prohibited this reservation from being saved:</h2>
 
-<%= form_with(model: @reservations, url: reservations_path, method: :post) do |form| %>
-  <% if @reservations.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@reservations.errors.count, "error") %> prohibited this reservation from being saved:</h2>
+                <ul>
+                  <% @reservations.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
 
-      <ul>
-        <% @reservations.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+            <div class="field">
+              <%= form.label :table_id %>
+              <% if @tables.present? %>
+                <%= form.select :table_id, options_for_select(@tables), {}, class: "form-control" %>
+              <% else %>
+                <%= form.select :table_id, options_for_select(@tables), {}, class: "form-control" %>
+              <% end %>
+            </div>
+
+            <div class="field mb-3">
+              <%= form.label :reservation_date, class: "form-label" %>
+              <% # Отримати поточний час у годинах та хвилинах %>
+              <% current_time = Time.zone.now %>
+              <% current_minute = current_time.min %>
+
+
+              <% # Встановити мінімальний доступний час %>
+              <% min_time = current_time.beginning_of_day + 9.hours %>
+
+              <% # Встановити максимальний доступний час %>
+              <% max_time = current_time.beginning_of_day + 20.hours %>
+
+              <% # Вивести поле для вводу з встановленим мінімальним та максимальним часом %>
+              <%= form.datetime_local_field :reservation_date, min: min_time.strftime('%Y-%m-%dT%H:%M'), max: max_time.strftime('%Y-%m-%dT%H:%M'), step: 60, class: "form-control", id: "reservation_date" %>
+            </div>
+
+
+            <div class="mb-3">
+              <%= form.label :convert_to_order, class: "form-label" %>
+              <%= form.check_box :convert_to_order, class: "form-check-input" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :special_requests, class: "form-label" %>
+              <%= form.text_area :special_requests, class: "form-control" %>
+            </div>
+
+            <div class="field mb-3">
+              <%= form.submit 'Create Reservation', class: "btn btn-primary", id: "create_reservation_btn", disabled: true %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :table_id %>
-    <%= form.select :table_id, options_for_select(@tables) %>
   </div>
-
-  <div class="field">
-    <%= form.label :reservation_date %>
-    <%= form.datetime_field :reservation_date, min: Time.zone.now.beginning_of_day + 9.hours, max: Time.zone.now.beginning_of_day + 22.hours %>
-    <!-- <%= form.datetime_local_field :reservation_date, min: [Time.zone.now.beginning_of_day + 9.hours, Time.zone.now].max, max: (Time.zone.now.beginning_of_day + 22.hours).change(sec: 0), step: 60 %>-->
-  </div>
-
-  <div class="field">
-    <%= form.label :convert_to_order %>
-    <%= form.check_box :convert_to_order %>
-  </div>
-
-  <div class="field">
-    <%= form.label :special_requests %>
-    <%= form.text_area :special_requests %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit 'Create Reservation' %>
-  </div>
-<% end %>
+</div>

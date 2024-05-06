@@ -8,6 +8,7 @@ class User < ApplicationRecord
     role == 'admin'
   end
 
+
   private
 
   def generate_user_id

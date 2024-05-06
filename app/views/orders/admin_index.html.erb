@@ -25,7 +25,7 @@
                   <td class="text-center"><%= order.order_id %></td>
                   <td class="text-center"><%= order.user_id %></td>
                   <td class="text-center">$<%= order.total_amount %></td>
-                  <td class="text-center"><%= order.order_date.strftime("%B %d, %Y") %></td>
+                  <td class="text-center"><%= order.order_date.strftime("%B %d, %Y %H:%M") %></td>
                   <td class="text-center"><%= order.status %></td>
                   <td class="text-center"><%= link_to order_path(order), class: "btn btn-outline-info btn-sm container-fluid d-flex justify-content-center " do %>
                       Details

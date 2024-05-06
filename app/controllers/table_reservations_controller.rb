@@ -1,9 +1,24 @@
 class TableReservationsController < ApplicationController
   before_action :require_user_logged_in!, only: [:new, :create]
+  before_action :require_user_profile, only: [:new, :create]
 
+  def index
+    if Current.user.admin?
+      @reservations = TableReservations.all
+      render 'admin_index'
+    else
+      @reservations = TableReservations.where(user_id: Current.user.id)
+    end
+  end
   def new
     @reservations = TableReservations.new
     @tables = Tables.where(can_be_reserved: true).order(table_id: :asc).pluck(:table_id)
+  end
+
+  def destroy
+    @reservation = TableReservations.find(params[:id])
+    @reservation.destroy
+    redirect_to reservations_path, notice: 'Reservation was successfully deleted.'
   end
 
   def create
@@ -30,6 +45,11 @@ class TableReservationsController < ApplicationController
 
   def reservation_params
     params.require(:table_reservations).permit(:table_id, :order_id, :reservation_date, :special_requests)
+  end
+  def require_user_profile
+    unless Current.user.user_profile.present?
+      redirect_to profile_edit_path, alert: "Please fill in your profile before placing an order."
+    end
   end
 
   def create_order_for_reservation(reservation)

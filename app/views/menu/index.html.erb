@@ -31,7 +31,7 @@
                     <p class="card-text"><%= item.description %></p>
                   </div>
                   <div>
-                    <p class="card-text"><strong>Price:</strong> <%= item.price %><strong>$</strong></p>
+                    <p class="card-text mt-2"><strong>Price:</strong> <%= item.price %><strong>$</strong></p>
                     <% unless Current.user&.admin? %>
                       <%= button_to 'Add to the cart', add_to_cart_path(item_id: item.id), class: "btn btn-outline-success", remote: true, method: :post %>
                     <% end %>

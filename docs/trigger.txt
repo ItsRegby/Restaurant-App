@@ -1,0 +1,37 @@
+CREATE OR REPLACE FUNCTION update_can_be_reserved()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM table_reservations
+        WHERE table_reservations.table_id = NEW.table_id
+    ) THEN
+        NEW.can_be_reserved = true;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_can_be_reserved
+BEFORE INSERT OR UPDATE ON tables
+FOR EACH ROW EXECUTE FUNCTION update_can_be_reserved();
+
+CREATE OR REPLACE FUNCTION update_can_be_reserved_on_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM table_reservations tr
+        WHERE tr.table_id = OLD.table_id
+    ) THEN
+        UPDATE tables
+        SET can_be_reserved = true
+        WHERE tables.table_id = OLD.table_id;
+    END IF;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_can_be_reserved_on_delete
+AFTER DELETE ON table_reservations
+FOR EACH ROW EXECUTE FUNCTION update_can_be_reserved_on_delete();
