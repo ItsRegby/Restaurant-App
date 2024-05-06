@@ -1,0 +1,40 @@
+<h1>Create a new reservation</h1>
+
+<%= form_with(model: @reservations, url: reservations_path, method: :post) do |form| %>
+  <% if @reservations.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@reservations.errors.count, "error") %> prohibited this reservation from being saved:</h2>
+
+      <ul>
+        <% @reservations.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :table_id %>
+    <%= form.select :table_id, options_for_select(@tables) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :reservation_date %>
+    <%= form.datetime_field :reservation_date, min: Time.zone.now.beginning_of_day + 9.hours, max: Time.zone.now.beginning_of_day + 22.hours %>
+    <!-- <%= form.datetime_local_field :reservation_date, min: [Time.zone.now.beginning_of_day + 9.hours, Time.zone.now].max, max: (Time.zone.now.beginning_of_day + 22.hours).change(sec: 0), step: 60 %>-->
+  </div>
+
+  <div class="field">
+    <%= form.label :convert_to_order %>
+    <%= form.check_box :convert_to_order %>
+  </div>
+
+  <div class="field">
+    <%= form.label :special_requests %>
+    <%= form.text_area :special_requests %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Create Reservation' %>
+  </div>
+<% end %>

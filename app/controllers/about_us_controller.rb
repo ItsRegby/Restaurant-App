@@ -1,5 +1,5 @@
 class AboutUsController < ApplicationController
-  def aboutUs
+  def about_us
 
   end
 end

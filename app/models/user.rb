@@ -20,6 +20,7 @@ class User < ApplicationRecord
   # Зв'язок один до багатьох з відгуками
   has_many :reviews, dependent: :destroy
   has_many :orders
+  has_many :table_reservations, class_name: 'TableReservations'
 
   # Перевірка наявності емейлу і ролі
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "must be a valid email address." }

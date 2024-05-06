@@ -49,6 +49,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_220001) do
     t.check_constraint "rating >= 1 AND rating <= 5", name: "reviews_rating_check"
   end
 
+  create_table "table_reservations", primary_key: "reservation_id", id: :serial, force: :cascade do |t|
+    t.string "user_id", limit: 255, null: false
+    t.integer "table_id", null: false
+    t.integer "order_id"
+    t.datetime "reservation_date", precision: nil, null: false
+    t.text "special_requests"
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+  end
+
+  create_table "tables", primary_key: "table_id", id: :serial, force: :cascade do |t|
+    t.boolean "can_be_reserved", default: true, null: false
+  end
+
   create_table "user_profiles", primary_key: "profile_id", id: :serial, force: :cascade do |t|
     t.string "user_id", limit: 255, null: false
     t.string "full_name", limit: 255, null: false
@@ -69,5 +82,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_220001) do
   add_foreign_key "menu", "categories", primary_key: "category_id", name: "menu_category_id_fkey", on_delete: :cascade, validate: false
   add_foreign_key "orders", "users", primary_key: "user_id", name: "orders_user_id_fkey"
   add_foreign_key "reviews", "users", primary_key: "user_id", name: "reviews_user_id_fkey", validate: false
+  add_foreign_key "table_reservations", "orders", primary_key: "order_id", name: "table_reservations_order_id_fkey"
+  add_foreign_key "table_reservations", "tables", primary_key: "table_id", name: "table_reservations_table_id_fkey"
+  add_foreign_key "table_reservations", "users", primary_key: "user_id", name: "table_reservations_user_id_fkey"
   add_foreign_key "user_profiles", "users", primary_key: "user_id", name: "user_profiles_user_id_fkey", validate: false
 end

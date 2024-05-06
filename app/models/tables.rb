@@ -1,0 +1,3 @@
+class Tables < ApplicationRecord
+
+end

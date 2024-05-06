@@ -48,5 +48,8 @@ Rails.application.routes.draw do
 
   resources :reviews, only: [:index, :create, :new, :destroy]
 
+  get '/reservations/new', to: 'table_reservations#new', as: 'new_reservation'
+  post '/reservations', to: 'table_reservations#create'
+
   #match '*path', to: 'home#home', via: :all
 end
