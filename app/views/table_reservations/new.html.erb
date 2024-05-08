@@ -30,20 +30,22 @@
 
             <div class="field mb-3">
               <%= form.label :reservation_date, class: "form-label" %>
-              <% # Отримати поточний час у годинах та хвилинах %>
               <% current_time = Time.zone.now %>
-              <% current_minute = current_time.min %>
-
-
-              <% # Встановити мінімальний доступний час %>
               <% min_time = current_time.beginning_of_day + 9.hours %>
 
-              <% # Встановити максимальний доступний час %>
               <% max_time = current_time.beginning_of_day + 20.hours %>
 
-              <% # Вивести поле для вводу з встановленим мінімальним та максимальним часом %>
               <%= form.datetime_local_field :reservation_date, min: min_time.strftime('%Y-%m-%dT%H:%M'), max: max_time.strftime('%Y-%m-%dT%H:%M'), step: 60, class: "form-control", id: "reservation_date" %>
+
             </div>
+
+            <!--if you need to test all time of reservation-->
+            <!--<div class="field mb-3">
+              <%#= form.label :reservation_date, class: "form-label" %>
+
+              <%#= form.datetime_local_field :reservation_date, step: 60, class: "form-control", id: "reservation_date" %>
+            </div>-->
+
 
 
             <div class="mb-3">

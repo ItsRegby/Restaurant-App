@@ -39,6 +39,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_220001) do
     t.decimal "total_amount", precision: 10, scale: 2, null: false
     t.datetime "order_date", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "status", limit: 50
+    t.integer "reservation_id"
   end
 
   create_table "reviews", primary_key: "review_id", id: :serial, force: :cascade do |t|
@@ -80,9 +81,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_220001) do
   end
 
   add_foreign_key "menu", "categories", primary_key: "category_id", name: "menu_category_id_fkey", on_delete: :cascade, validate: false
+  add_foreign_key "orders", "table_reservations", column: "reservation_id", primary_key: "reservation_id", name: "orders_reservation_id_fkey", on_delete: :cascade, validate: false
   add_foreign_key "orders", "users", primary_key: "user_id", name: "orders_user_id_fkey"
   add_foreign_key "reviews", "users", primary_key: "user_id", name: "reviews_user_id_fkey", validate: false
-  add_foreign_key "table_reservations", "orders", primary_key: "order_id", name: "table_reservations_order_id_fkey"
+  add_foreign_key "table_reservations", "orders", primary_key: "order_id", name: "table_reservations_order_id_fkey", on_delete: :cascade, validate: false
   add_foreign_key "table_reservations", "tables", primary_key: "table_id", name: "table_reservations_table_id_fkey"
   add_foreign_key "table_reservations", "users", primary_key: "user_id", name: "table_reservations_user_id_fkey"
   add_foreign_key "user_profiles", "users", primary_key: "user_id", name: "user_profiles_user_id_fkey", validate: false

@@ -9,16 +9,17 @@
           <%= form_with model: @profile, url: profile_edit_path do |form| %>
             <div class="form-group mb-2">
               <%= form.label :full_name, class: "font-weight-bold" %>
-              <%= form.text_field :full_name, class: "form-control", placeholder: "Enter your full name" %>
+              <%= form.text_field :full_name, class: "form-control", placeholder: "Enter your full name", required: true %>
             </div>
             <div class="form-group mb-2">
               <%= form.label :address, class: "font-weight-bold" %>
-              <%= form.text_field :address, class: "form-control", placeholder: "Enter your address" %>
+              <%= form.text_field :address, class: "form-control", placeholder: "Enter your address", required: true %>
             </div>
             <div class="form-group mb-4">
               <%= form.label :phone_number, class: "font-weight-bold" %>
-              <%= form.text_field :phone_number, class: "form-control", placeholder: "Enter your phone number" %>
+              <%= form.text_field :phone_number, class: "form-control", placeholder: "Enter your phone number", required: true %>
             </div>
+
             <div class="card">
               <%= form.submit "Update  Profile", class: "btn btn-primary btn-block" %>
             </div>

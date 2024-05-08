@@ -13,6 +13,7 @@ class TableReservationsController < ApplicationController
   def new
     @reservations = TableReservations.new
     @tables = Tables.where(can_be_reserved: true).order(table_id: :asc).pluck(:table_id)
+    puts "@tables: #{@tables.inspect}"
   end
 
   def destroy

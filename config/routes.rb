@@ -53,5 +53,6 @@ Rails.application.routes.draw do
   post '/reservations', to: 'table_reservations#create'
   delete '/reservations/:id', to: 'table_reservations#destroy', as: 'delete_reservation'
 
-  #match '*path', to: 'home#home', via: :all
+  root 'home#home'
+  match '*path', to: 'home#home', via: :all
 end
