@@ -29,11 +29,19 @@ class MenuController < ApplicationController
     @menu_item = Menu.find(params[:id])
 
     if @menu_item.update(menu_params)
+      image_data = params[:menu][:image]
+      if image_data.present?
+        new_image_data = image_data.read
+        @menu_item.image = new_image_data
+        @menu_item.save
+      end
+
       redirect_to menu_path, notice: "Menu item updated successfully!"
     else
       render :edit
     end
   end
+
   def new
     @menu_item = Menu.new
   end
@@ -46,7 +54,7 @@ class MenuController < ApplicationController
     @menu_item.image = image_data.read if image_data.present?
 
     if @menu_item.save
-      redirect_to menu_path(@menu_item), notice: "Menu item added successfully!"
+      redirect_to menu_path, notice: "Menu item added successfully!"
     else
       render :new
     end

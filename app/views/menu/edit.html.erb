@@ -29,7 +29,7 @@
             </div>
             <div class="mb-3">
               <%= form.label :image, class: "form-label" %>
-              <%= form.file_field :image, class: "form-control" %>
+              <%= form.file_field :image, class: "form-control", accept: "image/jpg" %>
             </div>
             <%= form.submit "Update Menu Item", class: "btn btn-primary" %>
           <% end %>
