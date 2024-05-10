@@ -5,6 +5,25 @@
         <div class="custom-card bg-primary text-white">
           <h1 class="text-center">Reservations</h1>
         </div>
+        <div class="row justify-content-center mt-3 container">
+          <div class="col-md-12">
+            <%= form_tag reservations_path, method: :get, class: "form-inline" do %>
+              <div class="form-group mr-2">
+                <%= label_tag :table_id, "Filter by Table ID:" %>
+                <%= number_field_tag :table_id, params[:table_id], class: "form-control" %>
+              </div>
+              <div class="form-group mr-2">
+                <%= label_tag :user_id, "Filter by User ID:" %>
+                <%= text_field_tag :user_id, params[:user_id], class: "form-control" %>
+              </div>
+              <div class="form-group mr-2">
+                <%= label_tag :special_requests, "Filter by Special Requests:" %>
+                <%= text_field_tag :special_requests, params[:special_requests], class: "form-control" %>
+              </div>
+              <div class="mt-2"><%= submit_tag "Apply Filter", class: "btn btn-primary" %></div>
+            <% end %>
+          </div>
+        </div>
         <% if @reservations.any? %>
           <div class="table-responsive">
             <table class="table table-hover">

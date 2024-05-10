@@ -5,9 +5,15 @@ class TableReservationsController < ApplicationController
   def index
     if Current.user.admin?
       @reservations = TableReservations.all
+      @reservations = @reservations.where(table_id: params[:table_id]) if params[:table_id].present?
+      @reservations = @reservations.where(user_id: params[:user_id]) if params[:user_id].present?
+      @reservations = @reservations.where("special_requests LIKE ?", "%#{params[:special_requests]}%") if params[:special_requests].present?
       render 'admin_index'
     else
       @reservations = TableReservations.where(user_id: Current.user.id)
+      @reservations = @reservations.where(table_id: params[:table_id]) if params[:table_id].present?
+      @reservations = @reservations.where(user_id: params[:user_id]) if params[:user_id].present?
+      @reservations = @reservations.where("special_requests LIKE ?", "%#{params[:special_requests]}%") if params[:special_requests].present?
     end
   end
   def new

@@ -96,11 +96,22 @@ class OrdersController < ApplicationController
     end
   end
   def index
+    @order_statuses = { 'pending' => 'pending', 'confirmed' => 'confirmed', 'shipped' => 'shipped', 'delivered' => 'delivered', 'canceled' => 'canceled' }
     if Current.user.admin?
       @orders = Order.all
+      @orders = @orders.where(status: params[:status]) if params[:status].present?
+      @orders = @orders.where("order_date >= ?", params[:start_date]) if params[:start_date].present?
+      @orders = @orders.where("order_date <= ?", params[:end_date]) if params[:end_date].present?
+      @orders = @orders.where("total_amount >= ?", params[:min_amount]) if params[:min_amount].present?
+      @orders = @orders.where("total_amount <= ?", params[:max_amount]) if params[:max_amount].present?
       render 'admin_index'
     else
       @orders = Order.where(user_id: Current.user.id)
+      @orders = @orders.where(status: params[:status]) if params[:status].present?
+      @orders = @orders.where("order_date >= ?", params[:start_date]) if params[:start_date].present?
+      @orders = @orders.where("order_date <= ?", params[:end_date]) if params[:end_date].present?
+      @orders = @orders.where("total_amount >= ?", params[:min_amount]) if params[:min_amount].present?
+      @orders = @orders.where("total_amount <= ?", params[:max_amount]) if params[:max_amount].present?
     end
   end
 

@@ -5,6 +5,35 @@
         <div class="custom-card bg-primary text-white">
           <h1 class="text-center">Orders</h1>
         </div>
+        <div class="row justify-content-center mt-3 container">
+          <div class="col-md-8">
+            <%= form_tag orders_path, method: :get, class: "form-inline" do %>
+              <div class="form-group mr-2">
+                <%= label_tag :status, "Filter by Status:" %>
+                <%= select_tag :status, options_for_select(@order_statuses.map { |key, value| [value.capitalize, key] }), { include_blank: true, class: "form-control" } %>
+              </div>
+              <div class="form-group mr-2">
+                <%= label_tag :start_date, "Start Date:" %>
+                <%= date_field_tag :start_date, params[:start_date], class: "form-control" %>
+              </div>
+              <div class="form-group mr-2">
+                <%= label_tag :end_date, "End Date:" %>
+                <%= date_field_tag :end_date, params[:end_date], class: "form-control" %>
+              </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group mr-2">
+                  <%= label_tag :min_amount, "Min Amount ($):" %>
+                  <%= number_field_tag :min_amount, params[:min_amount], class: "form-control" %>
+                </div>
+                <div class="form-group mr-2">
+                  <%= label_tag :max_amount, "Max Amount ($):" %>
+                  <%= number_field_tag :max_amount, params[:max_amount], class: "form-control" %>
+                </div>
+                <div class="mt-3"><%= submit_tag "Apply Filter", class: "btn btn-primary" %> </div>
+            <% end %>
+            </div>
+            </div>
         <% if @orders.any? %>
           <div class="table-responsive">
             <table class="table table-hover">

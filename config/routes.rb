@@ -54,5 +54,7 @@ Rails.application.routes.draw do
   delete '/reservations/:id', to: 'table_reservations#destroy', as: 'delete_reservation'
 
   root 'home#home'
+=begin
   match '*path', to: 'home#home', via: :all
+=end
 end
